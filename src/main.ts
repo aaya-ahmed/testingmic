@@ -1,6 +1,11 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
-
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+async function initializeApp() {
+  await import('./init-zone')
+  await import('./init-localize')
+  const { initializeProdMode } = await import('./init-prod-mode');
+  const { initializeConsole } = await import('./init-console');
+  const { bootstrapAngularApp } = await import('./init-bootstrap');
+  initializeProdMode();
+  initializeConsole();
+  bootstrapAngularApp();
+}
+initializeApp();
