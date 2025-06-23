@@ -6,6 +6,7 @@
     action=""
   >
     <div class="mobile-container">
+
       @if (hideMobileIcon) {
       <div
         class="mobile-search"
@@ -74,15 +75,6 @@
     <div class="loader-container" [ngClass]="{ ar: lang === 'ar' }">
       <canvas #waveformCanvas class="waveform-canvas"></canvas>
     </div>
-    } @if (!searchKeywords) {
-    <img
-      src="/assets/icon-center/search.svg"
-      width="40"
-      height="40"
-      [dir]="lang === 'en' ? 'rtl' : 'ltr'"
-      alt="search icon"
-      class="search-icon"
-    />
     } @if (!searchKeywords) {
     <div
       class="mic-wrapper"
