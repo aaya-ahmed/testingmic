@@ -170,7 +170,7 @@ export class SearchEngineComponent implements OnInit {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
-        this.mediaStream = stream;
+        // this.mediaStream = stream;
       //   this.audioContext = new (window.AudioContext ||
       //     (window as any).webkitAudioContext)();
       //   this.analyser = this.audioContext.createAnalyser();
@@ -234,10 +234,10 @@ export class SearchEngineComponent implements OnInit {
   stopVisualizer(): void {
     // if (this.animationId) cancelAnimationFrame(this.animationId);
     // if (this.audioContext) this.audioContext.close();
-    if (this.mediaStream) {
-      this.mediaStream.getTracks().forEach((track) => track.stop());
-      this.mediaStream = null;
-    }
+    // if (this.mediaStream) {
+    //   this.mediaStream.getTracks().forEach((track) => track.stop());
+    //   this.mediaStream = null;
+    // }
   }
 
 }
