@@ -43,7 +43,6 @@ export class SearchEngineComponent implements OnInit {
   mediaStream: MediaStream | null = null;
   constructor(
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
     private speechService: SpeechRecognitionService,
   ) {
 
@@ -116,11 +115,10 @@ export class SearchEngineComponent implements OnInit {
     console.log('Retrying speech recognition...');
     setTimeout(() => {
       if (!this.isListening) {
-        this.ngZone.runOutsideAngular(() => {
           this.recognition.start();
-        });
         this.isListening = true;
         this.startVisualizer();
+        this.cdr.detectChanges();
       }
     }, 500);
   }
