@@ -167,9 +167,9 @@ export class SearchEngineComponent implements OnInit {
     }
   }
   startVisualizer(): void {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
+    // navigator.mediaDevices
+    //   .getUserMedia({ audio: true })
+    //   .then((stream) => {
         // this.mediaStream = stream;
       //   this.audioContext = new (window.AudioContext ||
       //     (window as any).webkitAudioContext)();
@@ -225,7 +225,7 @@ export class SearchEngineComponent implements OnInit {
       //   };
 
       //   draw();
-      })
+      // })
       // .catch((err) => {
       //   console.error('Microphone access denied', err);
       // });
