@@ -43,8 +43,8 @@ export class SearchEngineComponent implements OnInit {
   mediaStream: MediaStream | null = null;
   constructor(
     private cdr: ChangeDetectorRef,
-        private ngZone: NgZone,
-        private speechService: SpeechRecognitionService,
+    private ngZone: NgZone,
+    private speechService: SpeechRecognitionService,
   ) {
 
   }
@@ -112,60 +112,60 @@ export class SearchEngineComponent implements OnInit {
     }
   }
 
-retrySpeechRecognition(): void {
-  console.log('Retrying speech recognition...');
-  setTimeout(() => {
-    if (!this.isListening) {
-      this.ngZone.runOutsideAngular(() => {
-        this.recognition.start();
-      });
+  retrySpeechRecognition(): void {
+    console.log('Retrying speech recognition...');
+    setTimeout(() => {
+      if (!this.isListening) {
+        this.ngZone.runOutsideAngular(() => {
+          this.recognition.start();
+        });
+        this.isListening = true;
+        this.startVisualizer();
+      }
+    }, 500);
+  }
+  // toggleSpeechRecognition(event: any): void {
+  //   if (this.isListening) {
+  //     this.recognition.stop();
+  //     this.stopVisualizer();
+  //     this.isListening = false;
+  //     this.cdr.detectChanges();
+  //   } else {
+  //     this.ngZone.runOutsideAngular(() => {
+  //       this.recognition.start();
+  //     });
+  //     this.isListening = true;
+  //     this.startVisualizer();
+  //   }
+  // }
+  toggleSpeechRecognition(event: any): void {
+    if (this.isListening) {
+      this.speechService.stop();
+      this.stopVisualizer();
+      this.isListening = false;
+      this.cdr.detectChanges();
+    } else {
       this.isListening = true;
       this.startVisualizer();
+      this.cdr.detectChanges();
+      this.speechService.start().subscribe({
+        next: (transcript) => {
+          console.log(transcript)
+          this.searchKeywords = transcript;
+        },
+        error: (err) => {
+          console.error('Speech recognition error:', err);
+          this.isListening = false;
+          this.cdr.detectChanges();
+        },
+        complete: () => {
+          this.isListening = false;
+          this.stopVisualizer();
+          this.cdr.detectChanges();
+        }
+      });
     }
-  }, 500);
-}
-// toggleSpeechRecognition(event: any): void {
-//   if (this.isListening) {
-//     this.recognition.stop();
-//     this.stopVisualizer();
-//     this.isListening = false;
-//     this.cdr.detectChanges();
-//   } else {
-//     this.ngZone.runOutsideAngular(() => {
-//       this.recognition.start();
-//     });
-//     this.isListening = true;
-//     this.startVisualizer();
-//   }
-// }
-toggleSpeechRecognition(event: any): void {
-  if (this.isListening) {
-    this.speechService.stop();
-    // this.stopVisualizer();
-    this.isListening = false;
-    this.cdr.detectChanges();
-  } else {
-    this.isListening = true;
-    this.cdr.detectChanges();
-    // this.startVisualizer();
-    this.speechService.start().subscribe({
-      next: (transcript) => {
-        console.log(transcript)
-        this.searchKeywords = transcript;
-      },
-      error: (err) => {
-        console.error('Speech recognition error:', err);
-        this.isListening = false;
-        this.cdr.detectChanges();
-      },
-      complete: () => {
-        this.isListening = false;
-        // this.stopVisualizer();
-        this.cdr.detectChanges();
-      }
-    });
   }
-}
   startVisualizer(): void {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
