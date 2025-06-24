@@ -29,14 +29,12 @@
             autofocus
             #inputText
           />
-          @if (isListening) {
           <div
             class="loader-container"
             [ngClass]="{ ar: lang === 'ar', en: lang === 'en' }"
           >
             <canvas #waveformCanvas class="waveform-canvas"></canvas>
           </div>
-          }
         </div>
         @if (!searchKeywords) {
         <div
@@ -71,11 +69,10 @@
       (input)="searchSubject.next(searchKeywords)"
       #inputText
     />
-    @if (isListening) {
     <div class="loader-container" [ngClass]="{ ar: lang === 'ar' }">
       <canvas #waveformCanvas class="waveform-canvas"></canvas>
     </div>
-    } @if (!searchKeywords) {
+    @if (!searchKeywords) {
     <div
       class="mic-wrapper"
       [dir]="lang === 'en' ? 'rtl' : 'ltr'"
