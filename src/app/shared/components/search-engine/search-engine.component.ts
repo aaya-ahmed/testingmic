@@ -24,10 +24,8 @@ import { SpeechRecognitionService } from './speech';
 export class SearchEngineComponent implements OnInit {
   lang: any = 'en';
   searchKeywords: string = '';
-  products: any = [];
   hideSearch: boolean = true;
   recentSearch: any = [];
-  popularSearch: any = [];
   isListening: boolean = false;
   recognition: any;
   hideMobileIcon: boolean = false;
