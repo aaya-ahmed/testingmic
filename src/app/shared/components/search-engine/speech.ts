@@ -50,13 +50,13 @@ export class SpeechRecognitionService {
       };
 
       // Start recognition outside Angular to avoid triggering change detection on every audio tick
-      // this.ngZone.runOutsideAngular(() => {
+      this.ngZone.runOutsideAngular(() => {
         try {
           this.recognition.start();
         } catch (err) {
           observer.error(err);
         }
-      // });
+      });
     });
   }
 
