@@ -8,7 +8,7 @@ export class SpeechRecognitionService {
   private recognition: any;
   private isInitialized = false;
 
-  constructor() {}
+  constructor(private ngZone: NgZone) {}
 
   init(lang: string = 'en-US') {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -49,12 +49,16 @@ export class SpeechRecognitionService {
       this.recognition.onend = () => {
           observer.complete();
       };
+
+      // Start recognition outside Angular to avoid triggering change detection on every audio tick
+      this.ngZone.runOutsideAngular(() => {
         try {
         console.log("hello1")
           this.recognition.start();
         } catch (err) {
           observer.error(err);
         }
+      });
     });
   }
 
