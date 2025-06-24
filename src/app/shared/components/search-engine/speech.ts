@@ -22,6 +22,7 @@ export class SpeechRecognitionService {
     this.recognition.interimResults = false;
     this.recognition.lang = lang;
     this.recognition.maxAlternatives = 1;
+
     this.isInitialized = true;
   }
 
@@ -37,21 +38,28 @@ export class SpeechRecognitionService {
         const results = event.results[0];
         if (results.isFinal) {
           const transcript = results[0].transcript.trim();
+          this.ngZone.run(() => {
             observer.next(transcript);
+          });
         }
       };
 
       this.recognition.onerror = (event: any) => {
+        this.ngZone.run(() => {
           observer.error(event.error);
+        });
       };
 
       this.recognition.onend = () => {
+        this.ngZone.run(() => {
           observer.complete();
+        });
       };
 
       // Start recognition outside Angular to avoid triggering change detection on every audio tick
       this.ngZone.runOutsideAngular(() => {
         try {
+        console.log("hello1")
           this.recognition.start();
         } catch (err) {
           observer.error(err);
