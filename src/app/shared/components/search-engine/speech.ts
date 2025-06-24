@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 export class SpeechRecognitionService {
   private recognition: any;
   private isInitialized = false;
-
-  constructor() {}
+  sugessions = '';
+  constructor() { }
 
   init(lang: string = 'en-US') {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -19,15 +19,15 @@ export class SpeechRecognitionService {
 
     this.recognition = new SpeechRecognition();
     this.recognition.continuous = false;
-    this.recognition.interimResults = false;
+    this.recognition.interimResults = true;
     this.recognition.lang = lang;
     this.recognition.maxAlternatives = 1;
 
     this.isInitialized = true;
   }
 
-  start(): Observable<string> {
-    return new Observable<string>((observer) => {
+  start(): Observable<string | { isFinal: boolean, transcript: string }> {
+    return new Observable<string | { isFinal: boolean, transcript: string }>((observer) => {
       if (!this.isInitialized || !this.recognition) {
         observer.error('Speech recognition is not initialized.');
         return;
@@ -35,27 +35,24 @@ export class SpeechRecognitionService {
 
       this.recognition.onresult = (event: any) => {
         const results = event.results[0];
-        if (results.isFinal) {
-          const transcript = results[0].transcript.trim();
-          console.log("transcript", transcript);
-            observer.next(transcript);
-        }
+        const transcript = results[0].transcript.trim();
+        observer.next({ transcript: transcript, isFinal: true });
       };
 
       this.recognition.onerror = (event: any) => {
-          observer.error(event.error);
+        observer.error(event.error);
       };
 
       this.recognition.onend = () => {
-          observer.complete();
+        observer.complete();
       };
 
-        try {
+      try {
         console.log("hello1")
-          this.recognition.start();
-        } catch (err) {
-          observer.error(err);
-        }
+        this.recognition.start();
+      } catch (err) {
+        observer.error(err);
+      }
     });
   }
 

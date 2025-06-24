@@ -147,9 +147,8 @@ export class SearchEngineComponent implements OnInit {
       this.startVisualizer();
       this.cdr.detectChanges();
       this.speechService.start().subscribe({
-        next: (transcript) => {
-          console.log(transcript)
-          this.searchKeywords = transcript;
+        next: (event) => {
+          this.searchKeywords = (event as {transcript:string,isFinal:boolean}).transcript ;
         },
         error: (err) => {
           console.error('Speech recognition error:', err);
