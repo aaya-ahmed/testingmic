@@ -34,10 +34,10 @@ export class SpeechRecognitionService {
       }
 
       this.recognition.onresult = (event: any) => {
-        console.log("hello")
         const results = event.results[0];
         if (results.isFinal) {
           const transcript = results[0].transcript.trim();
+          console.log("transcript", transcript);
           this.ngZone.run(() => {
             observer.next(transcript);
           });
