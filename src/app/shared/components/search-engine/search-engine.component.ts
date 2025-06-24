@@ -141,13 +141,13 @@ retrySpeechRecognition(): void {
 toggleSpeechRecognition(event: any): void {
   if (this.isListening) {
     this.speechService.stop();
-    this.stopVisualizer();
+    // this.stopVisualizer();
     this.isListening = false;
     this.cdr.detectChanges();
   } else {
     this.isListening = true;
     this.cdr.detectChanges();
-    this.startVisualizer();
+    // this.startVisualizer();
     this.speechService.start().subscribe({
       next: (transcript) => {
         console.log(transcript)
@@ -160,7 +160,7 @@ toggleSpeechRecognition(event: any): void {
       },
       complete: () => {
         this.isListening = false;
-        this.stopVisualizer();
+        // this.stopVisualizer();
         this.cdr.detectChanges();
       }
     });
