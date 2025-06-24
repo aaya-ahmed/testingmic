@@ -171,69 +171,69 @@ export class SearchEngineComponent implements OnInit {
       .getUserMedia({ audio: true })
       .then((stream) => {
         this.mediaStream = stream;
-        this.audioContext = new (window.AudioContext ||
-          (window as any).webkitAudioContext)();
-        this.analyser = this.audioContext.createAnalyser();
-        this.analyser.fftSize = 64; // ~32 bars
+      //   this.audioContext = new (window.AudioContext ||
+      //     (window as any).webkitAudioContext)();
+      //   this.analyser = this.audioContext.createAnalyser();
+      //   this.analyser.fftSize = 64; // ~32 bars
 
-        const bufferLength = this.analyser.frequencyBinCount; // 32
-        this.dataArray = new Uint8Array(bufferLength);
+      //   const bufferLength = this.analyser.frequencyBinCount; // 32
+      //   this.dataArray = new Uint8Array(bufferLength);
 
-        this.source = this.audioContext.createMediaStreamSource(stream);
-        this.source.connect(this.analyser);
+      //   this.source = this.audioContext.createMediaStreamSource(stream);
+      //   this.source.connect(this.analyser);
 
-        const canvas = this.waveformCanvas.nativeElement;
-        const ctx = canvas.getContext('2d')!;
-        canvas.width = 120;
-        // Set canvas height to 50 to match the bar height
-        canvas.height = 50;
+      //   const canvas = this.waveformCanvas.nativeElement;
+      //   const ctx = canvas.getContext('2d')!;
+      //   canvas.width = 120;
+      //   // Set canvas height to 50 to match the bar height
+      //   canvas.height = 50;
 
-        const barWidth = 3;
-        const barGap = 1;
-        // max total bar height (up+down)
-        const maxBarHeight = canvas.height * 0.8;
+      //   const barWidth = 3;
+      //   const barGap = 1;
+      //   // max total bar height (up+down)
+      //   const maxBarHeight = canvas.height * 0.8;
 
-        let waveOffset = 0;
+      //   let waveOffset = 0;
 
-        const draw = () => {
-          this.animationId = requestAnimationFrame(draw);
+      //   const draw = () => {
+      //     this.animationId = requestAnimationFrame(draw);
 
-          this.analyser.getByteFrequencyData(this.dataArray);
+      //     this.analyser.getByteFrequencyData(this.dataArray);
 
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+      //     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          ctx.fillStyle = '#e60000';
-          // wave speed
-          waveOffset += 0.15;
+      //     ctx.fillStyle = '#e60000';
+      //     // wave speed
+      //     waveOffset += 0.15;
 
-          const centerY = canvas.height / 2;
+      //     const centerY = canvas.height / 2;
 
-          for (let i = 0; i < bufferLength; i++) {
-            // normalize 0-1
-            const amplitude = this.dataArray[i] / 255;
-            // ~0.2 - 1.0
-            const wave = Math.sin(i * 0.6 + waveOffset) * 0.4 + 0.6;
+      //     for (let i = 0; i < bufferLength; i++) {
+      //       // normalize 0-1
+      //       const amplitude = this.dataArray[i] / 255;
+      //       // ~0.2 - 1.0
+      //       const wave = Math.sin(i * 0.6 + waveOffset) * 0.4 + 0.6;
 
-            const barHeight = amplitude * maxBarHeight * wave;
+      //       const barHeight = amplitude * maxBarHeight * wave;
 
-            const x = i * (barWidth + barGap);
-            const y = centerY - barHeight / 2;
+      //       const x = i * (barWidth + barGap);
+      //       const y = centerY - barHeight / 2;
 
-            // Draw the bar centered vertically (bars grow both up and down)
-            ctx.fillRect(x, y, barWidth, barHeight);
-          }
-        };
+      //       // Draw the bar centered vertically (bars grow both up and down)
+      //       ctx.fillRect(x, y, barWidth, barHeight);
+      //     }
+      //   };
 
-        draw();
+      //   draw();
       })
-      .catch((err) => {
-        console.error('Microphone access denied', err);
-      });
+      // .catch((err) => {
+      //   console.error('Microphone access denied', err);
+      // });
   }
 
   stopVisualizer(): void {
-    if (this.animationId) cancelAnimationFrame(this.animationId);
-    if (this.audioContext) this.audioContext.close();
+    // if (this.animationId) cancelAnimationFrame(this.animationId);
+    // if (this.audioContext) this.audioContext.close();
     if (this.mediaStream) {
       this.mediaStream.getTracks().forEach((track) => track.stop());
       this.mediaStream = null;
