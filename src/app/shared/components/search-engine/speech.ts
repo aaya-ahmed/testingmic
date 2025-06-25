@@ -46,9 +46,7 @@ export class SpeechRecognitionService {
       this.recognition.onend = () => {
         observer.complete();
       };
-
       try {
-        console.log("hello1")
         this.recognition.start();
       } catch (err) {
         observer.error(err);

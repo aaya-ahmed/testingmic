@@ -1,96 +1,48 @@
 <div class="main-search-bar" [class.main-search-bar-rtl]="lang !== 'en'">
-  <form
-    role="search"
-    method="get"
-    class="search-form-mobile"
-    action=""
-  >
+  <form role="search" method="get" class="search-form-mobile" action="">
     <div class="mobile-container">
 
       @if (hideMobileIcon) {
-      <div
-        class="mobile-search"
-        [ngClass]="{
+      <div class="mobile-search" [ngClass]="{
           ar: lang === 'ar',
           logged: userLoggedIn
-        }"
-      >
+        }">
         <div class="search-field">
-          <input
-            type="search"
-            [placeholder]="isListening ? '' : ('Search')"
-            [readonly]="isListening"
-            value=""
-            name="s"
-            title="Search for:"
-            [(ngModel)]="searchKeywords"
-            (input)="searchSubject.next(searchKeywords)"
-            autocomplete="off"
-            autofocus
-            #inputText
-          />
-          <div
-            class="loader-container"
-            [ngClass]="{ ar: lang === 'ar', en: lang === 'en' }"
-          >
+          <input type="search" [placeholder]="isListening ? '' : ('Search')" [readonly]="isListening" value="" name="s"
+            title="Search for:" [(ngModel)]="searchKeywords" (input)="searchSubject.next(searchKeywords)"
+            autocomplete="off" autofocus #inputText />
+          <div class="loader-container" [ngClass]="{ ar: lang === 'ar', en: lang === 'en' }">
             <canvas #waveformCanvas class="waveform-canvas"></canvas>
+            <span style="font-size: 16px; color: #e60000;">
+              {{ searchKeywords ? searchKeywords : '' }}
+            </span>
           </div>
         </div>
-        @if (!searchKeywords) {
-        <div
-          class="mic-wrapper"
-          [dir]="lang === 'en' ? 'rtl' : 'ltr'"
-          (click)="toggleSpeechRecognition($event)"
-          [ngClass]="{ ar: lang === 'ar' }"
-        >
-          <img
-            src="/assets/icon-center/mic.svg"
-            width="30"
-            height="30"
-            alt="mic icon"
-            [class.listening]="isListening"
-          />
+        <div class="mic-wrapper" [dir]="lang === 'en' ? 'rtl' : 'ltr'" (click)="toggleSpeechRecognition($event)"
+          [ngClass]="{ ar: lang === 'ar' }">
+          <img src="/assets/icon-center/mic.svg" width="30" height="30" alt="mic icon"
+            [class.listening]="isListening" />
         </div>
-        }
-      </div>
+              </div>
       }
     </div>
   </form>
   <div class="vf-search-engine">
-    <input
-      type="search"
-      autocomplete="off"
-      [placeholder]="
+    <input type="search" autocomplete="off" [placeholder]="
         isListening ? '' : ('main-search-placeholder' )
-      "
-      [readonly]="isListening"
-      [(ngModel)]="searchKeywords"
-      id="searchInput"
-      (input)="searchSubject.next(searchKeywords)"
-      #inputText
-    />
+      " [readonly]="isListening" [(ngModel)]="searchKeywords" id="searchInput"
+      (input)="searchSubject.next(searchKeywords)" #inputText />
     <div class="loader-container" [ngClass]="{ ar: lang === 'ar' }">
       <canvas #waveformCanvas class="waveform-canvas"></canvas>
+      <span style="font-size: 16px; color: #e60000;">
+        {{ searchKeywords ? searchKeywords : '' }}
+      </span>
     </div>
-    @if (!searchKeywords) {
-    <div
-      class="mic-wrapper"
-      [dir]="lang === 'en' ? 'rtl' : 'ltr'"
-      [ngClass]="{ ar: lang === 'ar' }"
-    >
-      <img
-        src="/assets/mic.svg"
-        width="40"
-        height="40"
-        alt="mic icon"
-        (click)="toggleSpeechRecognition($event)"
-      />
+    <div class="mic-wrapper" [dir]="lang === 'en' ? 'rtl' : 'ltr'" [ngClass]="{ ar: lang === 'ar' }">
+      <img src="/assets/mic.svg" width="40" height="40" alt="mic icon" (click)="toggleSpeechRecognition($event)" />
     </div>
-    }
   </div>
   @if (!hideSearch && !isRedirected) {
 
   }
 </div>
-
-
