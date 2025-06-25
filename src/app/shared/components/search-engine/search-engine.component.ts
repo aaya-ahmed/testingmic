@@ -169,7 +169,7 @@ export class SearchEngineComponent implements OnInit {
   startVisualizer(): void {
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      this.mediaStream = stream;
+      this.mediaStream = new MediaStream(stream);
       this.audioContext = new ((window as any).AudioContext ||
         (window as any).webkitAudioContext)();
       this.analyser = this.audioContext?.createAnalyser();
@@ -178,7 +178,7 @@ export class SearchEngineComponent implements OnInit {
       const bufferLength = this.analyser.frequencyBinCount; // 32
       this.dataArray = new Uint8Array(bufferLength);
       console.log('Audio context created:', this.audioContext);
-        this.source = this.audioContext.createMediaStreamSource(stream);
+        this.source = this.audioContext.createMediaStreamSource(this.mediaStream);
         this.source.connect(this.analyser);
            const canvas = this.waveformCanvas.nativeElement;
         const ctx = canvas.getContext('2d')!;
